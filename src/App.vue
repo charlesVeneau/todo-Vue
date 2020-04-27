@@ -4,9 +4,20 @@
       <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+    <!-- <router-view /> -->
+    <Todos />
   </div>
 </template>
+
+<script>
+import Todos from "@/components/Todos.vue";
+
+export default {
+  components: {
+    Todos
+  }
+};
+</script>
 
 <style lang="scss">
 *,
@@ -45,37 +56,5 @@ body {
       color: #42b983;
     }
   }
-}
-
-.container {
-  background-color: #fff;
-  margin: 10rem auto 0;
-  width: 70%;
-  max-width: 400px;
-}
-.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.input,
-.todo__items {
-  background-color: #fff;
-  text-align: left;
-  border: none;
-  font-size: 1.4rem;
-  padding: 0.6rem;
-  outline: none;
-  width: 75%;
-  padding: 0 0.4em;
-}
-.btn {
-  border: none;
-  font-size: 1.4rem;
-  padding: 0.6rem;
-  outline: none;
-  background-color: rgb(86, 194, 110);
-  color: #fff;
-  width: 25%;
 }
 </style>

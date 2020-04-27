@@ -1,8 +1,5 @@
 <template>
-  <div class="row">
-    <input type="text" :placeholder="todo" class="input" />
-    <input type="button" value="Add" class="btn addBtn" />
-  </div>
+  <input type="text" :placeholder="todo" class="input" />
 </template>
 
 <script>
