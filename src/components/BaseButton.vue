@@ -17,11 +17,7 @@ export default {
     height: {
       type: [Number, String],
       default: 24
-    },
-    color: String
-  },
-  methods: {
-    btnClick() {}
+    }
   }
 };
 </script>
@@ -32,15 +28,12 @@ export default {
   font-size: 1.4rem;
   padding: 0.6rem;
   outline: none;
-  background-color: color;
-  color: #fff;
-  &:hover {
-    background-color: rgb(117, 209, 137);
-  }
+  background-color: #fff;
+  color: rgb(165, 165, 165);
 }
 .svg {
   stroke: currentColor;
-  stroke-width: 3;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
