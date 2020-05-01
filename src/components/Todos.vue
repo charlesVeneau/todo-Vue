@@ -1,66 +1,108 @@
 <template>
-  <div class="container">
+  <div>
     <header class="header">
-      <h1>Todo List</h1>
+      <button class="svg-wrapper save__button">
+        <svg class="svg svg-green" :width="24" :height="24">
+          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'save'}" />
+        </svg>
+      </button>
+      <button class="svg-wrapper login__button">
+        <svg class="svg svg-green" :width="24" :height="24">
+          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'log-in'}" />
+        </svg>
+      </button>
+      <button class="svg-wrapper signin__button">
+        <svg class="svg svg-green" :width="24" :height="24">
+          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'log-out'}" />
+        </svg>
+      </button>
     </header>
-    <section>
-      <div class="row">
-        <input
-          type="text"
-          placeholder="Add a task"
-          class="input"
-          v-model="newTodo"
-          @keyup.enter="addToDo()"
-        />
-        <button class="svg-wrapper" @click.prevent="addToDo">
-          <svg class="svg svg-green" :width="24" :height="24">
-            <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'plus'}" />
-          </svg>
-        </button>
-      </div>
-      <ul class="todo__items">
-        <li v-for="(todo, index) in todos" :key="todo.id" class="todo row">
-          <label :class="{doneTask : todo.completed}" @click="toggleToDo(index)">{{todo.content}}</label>
-          <!-- <BaseButton name="x" class="svg-red" @click="deleteTodo" /> -->
-          <button class="svg-wrapper" @click.prevent="deleteTodo(index)">
-            <svg class="svg svg-red" :width="24" :height="24">
-              <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'x'}" />
+    <div class="container">
+      <section class="title">
+        <h1>Todo List</h1>
+      </section>
+      <section>
+        <div class="row">
+          <input
+            type="text"
+            placeholder="Add a task"
+            class="input"
+            v-model="newTodo"
+            @keyup.enter="addToDo()"
+          />
+          <button class="svg-wrapper" @click.prevent="addToDo">
+            <svg class="svg svg-green" :width="24" :height="24">
+              <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'plus'}" />
             </svg>
           </button>
-        </li>
-      </ul>
-    </section>
+        </div>
+        <ul class="todo__items">
+          <li v-for="(todo, index) in filtered" :key="todo.id" class="todo row">
+            <label :class="{doneTask : todo.completed}" @click="toggleToDo(index)">{{todo.content}}</label>
+            <!-- <BaseButton name="x" class="svg-red" @click="deleteTodo" /> -->
+            <button class="svg-wrapper" @click.prevent="deleteTodo(index)">
+              <svg class="svg svg-red" :width="24" :height="24">
+                <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'x'}" />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </section>
+      <section class="filters__section">
+        <ul class="row filters__list">
+          <li>
+            <a
+              href="#"
+              :class="{selected : filter == 'all'}"
+              @click.prevent="filter = 'all'"
+            >All tasks</a>
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{selected : filter == 'todo'}"
+              @click.prevent="filter = 'todo'"
+            >{{Todos}} tasks to do</a>
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{selected : filter == 'done'}"
+              @click.prevent="filter = 'done'"
+            >{{doneTodos}} done tasks</a>
+          </li>
+        </ul>
+      </section>
+    </div>
   </div>
 </template>
 
 <script>
+import db from "./firebaseInt";
+
 export default {
+  props: ["todos"],
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          content: "todo item 1",
-          completed: false
-        },
-        {
-          id: 2,
-          content: "todo item 2",
-          completed: false
-        },
-        {
-          id: 3,
-          content: "todo item 3",
-          completed: false
-        },
-        {
-          id: 4,
-          content: "todo item 4",
-          completed: false
-        }
-      ],
-      newTodo: ""
+      Todos2: [],
+      newTodo: "",
+      filter: "all"
     };
+  },
+  created() {
+    db.collection("todos")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          console.log(doc.data());
+          const data = {
+            id: doc.id,
+            content: doc.data().content,
+            completed: doc.data().completed
+          };
+          this.Todos2.push(data);
+        });
+      });
   },
   methods: {
     toggleToDo(index) {
@@ -80,13 +122,38 @@ export default {
       console.log("click");
       this.todos.splice(index, 1);
     }
+  },
+  computed: {
+    Todos() {
+      return this.todos.filter(todo => !todo.completed).length;
+    },
+    doneTodos() {
+      return this.todos.filter(todo => todo.completed).length;
+    },
+    filtered() {
+      if (this.filter === "todo") {
+        return this.todos.filter(todo => !todo.completed);
+      } else if (this.filter == "done") {
+        return this.todos.filter(todo => todo.completed);
+      }
+      return this.todos;
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 0 4rem;
+}
+
+.title {
   background-color: currentColor;
+
+  padding: 0.1em 0;
   h1 {
     color: #fff;
   }
@@ -171,5 +238,25 @@ export default {
   &:hover {
     stroke: rgb(202, 75, 75);
   }
+}
+
+.filters__list {
+  list-style: none;
+  justify-content: center;
+  padding: 1em;
+  margin: 0;
+  border-top: 1px solid rgb(194, 194, 194);
+  li + li {
+    margin-left: 3em;
+  }
+  a {
+    color: rgb(165, 165, 165);
+    text-decoration: none;
+    padding: 0.1em 0.2em;
+  }
+}
+
+.selected {
+  color: rgb(86, 194, 110) !important;
 }
 </style>

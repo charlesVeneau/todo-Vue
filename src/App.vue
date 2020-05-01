@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
-    </div>
+    </div>-->
     <!-- <router-view /> -->
-    <Todos />
+    <div id="topBar"></div>
+    <Todos :todos="todos" />
   </div>
 </template>
 
@@ -13,6 +14,32 @@
 import Todos from "@/components/Todos.vue";
 
 export default {
+  data() {
+    return {
+      todos: [
+        {
+          id: 1,
+          content: "todo item 1",
+          completed: false
+        },
+        {
+          id: 2,
+          content: "todo item 2",
+          completed: false
+        },
+        {
+          id: 3,
+          content: "todo item 3",
+          completed: false
+        },
+        {
+          id: 4,
+          content: "todo item 4",
+          completed: false
+        }
+      ]
+    };
+  },
   components: {
     Todos
   }
