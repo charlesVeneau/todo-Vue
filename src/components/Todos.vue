@@ -38,9 +38,12 @@
         </div>
         <ul class="todo__items">
           <li v-for="(todo, index) in filtered" :key="todo.id" class="todo row">
-            <label :class="{doneTask : todo.completed}" @click="toggleToDo(index)">{{todo.content}}</label>
+            <label
+              :class="{ doneTask:todo.completed }"
+              @click="toggleToDo(index)"
+            >{{ todo.content }}</label>
             <!-- <BaseButton name="x" class="svg-red" @click="deleteTodo" /> -->
-            <button class="svg-wrapper" @click.prevent="deleteTodo(index)">
+            <button class="svg-wrapper" @click.prevent="deleteTodo(todo, index)">
               <svg class="svg svg-red" :width="24" :height="24">
                 <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'x'}" />
               </svg>
@@ -81,11 +84,11 @@
 import db from "./firebaseInt";
 
 export default {
-  props: ["todos"],
   data() {
     return {
-      Todos2: [],
+      todos: [],
       newTodo: "",
+      bdTodo: {},
       filter: "all"
     };
   },
@@ -94,33 +97,45 @@ export default {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          console.log(doc.data());
+          // console.log(doc.id);
           const data = {
             id: doc.id,
             content: doc.data().content,
             completed: doc.data().completed
           };
-          this.Todos2.push(data);
+          this.todos.push(data);
         });
       });
   },
   methods: {
     toggleToDo(index) {
       this.todos[index].completed = !this.todos[index].completed;
+      db.collection("todos")
+        .doc(this.todos[index].id)
+        .update({
+          completed: this.todos[index].completed
+        });
     },
     addToDo() {
       if (this.newTodo.length > 0) {
-        this.todos.push({
-          id: this.todos.length + 1,
+        var newTodoRef = db.collection("todos").doc();
+        (this.bdTodo = {
+          id: newTodoRef.id,
           content: this.newTodo,
           completed: false
-        });
+        }),
+          this.todos.push(this.bdTodo);
+        newTodoRef.set(this.bdTodo);
         this.newTodo = "";
+        this.bdTodo = "";
       }
     },
-    deleteTodo(index) {
-      console.log("click");
-      this.todos.splice(index, 1);
+    deleteTodo(todo) {
+      db.collection("todos")
+        .doc(todo.id)
+        .delete();
+      console.log(todo.id);
+      this.todos = this.todos.filter(i => i !== todo);
     }
   },
   computed: {

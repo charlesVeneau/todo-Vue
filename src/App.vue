@@ -6,7 +6,7 @@
     </div>-->
     <!-- <router-view /> -->
     <div id="topBar"></div>
-    <Todos :todos="todos" />
+    <Todos />
   </div>
 </template>
 
@@ -14,32 +14,6 @@
 import Todos from "@/components/Todos.vue";
 
 export default {
-  data() {
-    return {
-      todos: [
-        {
-          id: 1,
-          content: "todo item 1",
-          completed: false
-        },
-        {
-          id: 2,
-          content: "todo item 2",
-          completed: false
-        },
-        {
-          id: 3,
-          content: "todo item 3",
-          completed: false
-        },
-        {
-          id: 4,
-          content: "todo item 4",
-          completed: false
-        }
-      ]
-    };
-  },
   components: {
     Todos
   }
