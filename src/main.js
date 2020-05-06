@@ -2,12 +2,14 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import upperFirst from 'lodash/upperFirst'
-import camelCase from 'lodash/camelCase'
+import upperFirst from "lodash/upperFirst";
+import camelCase from "lodash/camelCase";
+
+// -----Script to automaticaly import componenets----- //
 
 const requireComponent = require.context(
   // The relative path of the components folder
-  './components',
+  "./components",
   // Whether or not to look in subfolders
   false,
   // The regular expression used to match base component filenames
@@ -23,13 +25,11 @@ requireComponent.keys().forEach(fileName => {
     camelCase(
       // Gets the file name regardless of folder depth
       fileName
-      .split('/')
+      .split("/")
       .pop()
-      .replace(/\.\w+$/, '')
+      .replace(/\.\w+$/, "")
     )
   )
-
-
   // Register component globally
   Vue.component(
     componentName,
@@ -39,6 +39,8 @@ requireComponent.keys().forEach(fileName => {
     componentConfig.default || componentConfig
   )
 })
+
+// !!!-----Script to automaticaly import componenets-----!!! //
 
 Vue.config.productionTip = false;
 

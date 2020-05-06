@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import db from "./firebaseInt";
+const firebase = require("../components/firebaseInt");
 
 export default {
   data() {
@@ -93,7 +93,8 @@ export default {
     };
   },
   created() {
-    db.collection("todos")
+    firebase.db
+      .collection("todos")
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -110,7 +111,8 @@ export default {
   methods: {
     toggleToDo(index) {
       this.todos[index].completed = !this.todos[index].completed;
-      db.collection("todos")
+      firebase.db
+        .collection("todos")
         .doc(this.todos[index].id)
         .update({
           completed: this.todos[index].completed
@@ -118,7 +120,7 @@ export default {
     },
     addToDo() {
       if (this.newTodo.length > 0) {
-        var newTodoRef = db.collection("todos").doc();
+        var newTodoRef = firebase.db.collection("todos").doc();
         (this.bdTodo = {
           id: newTodoRef.id,
           content: this.newTodo,
@@ -131,7 +133,8 @@ export default {
       }
     },
     deleteTodo(todo) {
-      db.collection("todos")
+      firebase.db
+        .collection("todos")
         .doc(todo.id)
         .delete();
       console.log(todo.id);
