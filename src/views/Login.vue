@@ -163,12 +163,13 @@ export default {
         .then(user => {
           this.$store.commit("setCurrentUser", user.user);
           this.$store.dispatch("fetchUserProfile");
+          this.performingRequest = false;
           this.$router.push("/");
         })
         .catch(err => {
           console.log(err);
-          this.errorMsg = err.message;
           this.performingRequest = false;
+          this.errorMsg = err.message;
         });
     },
     SignUp() {

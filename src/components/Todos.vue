@@ -1,8 +1,9 @@
 <template>
   <div>
     <header class="header">
-      <p>Welcome back ...</p>
+      <p>Welcome back {{userProfile.name}}</p>
       <a class="header-btn" @click.prevent="logOut">Log Out</a>
+      <!-- <router-link to="settings">Settings</router-link> -->
     </header>
     <div class="container">
       <section class="title">
@@ -68,6 +69,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 const firebase = require("../components/firebaseInt");
 
 export default {
@@ -135,6 +137,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["userProfile", "currentUser"]),
     Todos() {
       return this.todos.filter(todo => !todo.completed).length;
     },

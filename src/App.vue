@@ -10,10 +10,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  // components: {
-  //   Todos
-  // }
+  components: {
+    ...mapState(["currentUser"])
+  }
 };
 </script>
 
