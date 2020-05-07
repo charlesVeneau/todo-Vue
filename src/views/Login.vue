@@ -8,29 +8,31 @@
     <!-------- START OF LOGIN FORM -------->
     <form v-if="showLoginForm" @submit.prevent class="container">
       <h1>Login</h1>
+      <div class="row-col">
+        <input
+          class="input"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="email"
+          required
+          v-model="loginForm.email"
+        />
+        <input
+          class="input"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+          required
+          v-model="loginForm.password"
+        />
+        <button class="btn" @click.prevent="logIn">Log In</button>
+      </div>
 
-      <input
-        class="input"
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email"
-        required
-        v-model="loginForm.email"
-      />
-      <input
-        class="input"
-        type="password"
-        name="password"
-        id="password"
-        placeholder="password"
-        required
-        v-model="loginForm.password"
-      />
-      <button class="btn" @click.prevent="logIn">Log In</button>
       <div class="formBtn">
-        <a class="btn" @click.prevent="toggleForm">Create an account</a>
-        <a class="btn" @click="togglePasswordReset">Forgot Password</a>
+        <a class="btn-blue" @click.prevent="toggleForm">Create an account</a>
+        <a class="btn-blue" @click="togglePasswordReset">Forgot Password</a>
       </div>
     </form>
     <!--------!!! END OF LOGIN FORM !!!-------->
@@ -38,37 +40,38 @@
 
     <form v-if="!showLoginForm && !showForgotPassword" @submit.prevent class="container">
       <h1>SignUp</h1>
-
-      <input
-        class="input"
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email"
-        required
-        v-model="signUpForm.email"
-      />
-      <input
-        class="input"
-        type="text"
-        name="name"
-        id="name"
-        placeholder="name"
-        required
-        v-model="signUpForm.name"
-      />
-      <input
-        class="input"
-        type="password"
-        name="password"
-        id="password"
-        placeholder="password"
-        required
-        v-model="signUpForm.password"
-      />
-      <button class="btn" @click.prevent="SignUp">Sign Up</button>
+      <div class="row-col">
+        <input
+          class="input"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="email"
+          required
+          v-model="signUpForm.email"
+        />
+        <input
+          class="input"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="name"
+          required
+          v-model="signUpForm.name"
+        />
+        <input
+          class="input"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+          required
+          v-model="signUpForm.password"
+        />
+        <button class="btn" @click.prevent="SignUp">Sign Up</button>
+      </div>
       <div class="formBtn">
-        <a class="btn" @click.prevent="toggleForm">Log In</a>
+        <a class="btn-blue" @click.prevent="toggleForm">Log In</a>
       </div>
     </form>
     <!--------!!! END OF SIGNUP FORM !!!-------->
@@ -76,24 +79,27 @@
     <form v-if="showForgotPassword" @submit.prevent class="password-reset container">
       <div v-if="!passwordResetSuccess">
         <h1>Reset Password</h1>
-        <p>We will send you an email to reset your password</p>
-        <input
-          type="email"
-          name="resetEmail"
-          id="resetEmail"
-          v-model="passwordForm.email"
-          placeholder="your@email.com"
-          required
-        />
-        <button @click.prevent="resetPassword">Submit</button>
-        <div class="formBtn">
-          <a class="btn" @click.prevent="togglePasswordReset">Log In</a>
+        <p class="form-text">We will send you an email to reset your password</p>
+        <div class="row-col">
+          <input
+            class="input"
+            type="email"
+            name="resetEmail"
+            id="resetEmail"
+            v-model="passwordForm.email"
+            placeholder="your@email.com"
+            required
+          />
+          <button @click.prevent="resetPassword" class="btn">Submit</button>
+          <div class="formBtn"></div>
+
+          <a class="btn-blue" @click.prevent="togglePasswordReset">Log In</a>
         </div>
       </div>
       <div v-else>
         <h1>Email Sent</h1>
         <p>Check your email to reset your password</p>
-        <button @click.prevent="togglePasswordReset">Log In</button>
+        <button @click.prevent="togglePasswordReset" class="btn-blue">Log In</button>
       </div>
     </form>
     <!--------!!! START OF RESET PSWRD FORM !!!-------->
@@ -212,4 +218,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.input,
+.input + .btn {
+  margin-top: 1em;
+}
 </style>

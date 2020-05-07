@@ -84,6 +84,19 @@ body {
   align-items: center;
 }
 
+.row-col {
+  display: flex;
+  flex-flow: column;
+}
+
+.formBtn {
+  display: flex;
+  justify-content: space-between;
+}
+.form-text {
+  font-size: 1.2rem;
+}
+
 .input {
   background-color: #fff;
   text-align: left;
@@ -91,7 +104,7 @@ body {
   font-size: 1.4rem;
   padding: 0.6rem;
   outline: none;
-  width: 75%;
+  // width: 75%;
   padding: 0 0.4em;
 }
 
@@ -110,15 +123,32 @@ body {
 
 .btn {
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.4rem;
   padding: 0.6rem;
   outline: none;
   background-color: rgb(86, 194, 110);
   color: #fff;
-  width: 25%;
+  width: 100%;
+
   &:hover {
     background-color: rgb(117, 209, 137);
   }
+}
+
+.btn-blue {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  padding: 0.6rem;
+  outline: none;
+  background-color: #2c3e50;
+  color: #fff;
+  width: 100%;
 }
 
 .doneTask {
