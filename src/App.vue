@@ -156,6 +156,7 @@ body {
 .filters__list {
   list-style: none;
   justify-content: center;
+  text-align: center;
   padding: 1em;
   margin: 0;
   border-top: 1px solid rgb(194, 194, 194);

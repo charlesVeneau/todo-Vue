@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{'signup-form' : !showLoginForm && !showForgotPassword}">
     <transition name="fade">
       <div v-if="performingRequest" class="loading">
         <p>...loading</p>
@@ -29,13 +29,14 @@
       />
       <button class="btn" @click.prevent="logIn">Log In</button>
       <div class="formBtn">
-        <a href="#" @click.prevent="toggleForm">Create an account</a>
+        <a class="btn" @click.prevent="toggleForm">Create an account</a>
+        <a class="btn" @click="togglePasswordReset">Forgot Password</a>
       </div>
     </form>
     <!--------!!! END OF LOGIN FORM !!!-------->
     <!-------- START OF SIGNUP FORM -------->
 
-    <form v-else @submit.prevent class="container">
+    <form v-if="!showLoginForm && !showForgotPassword" @submit.prevent class="container">
       <h1>SignUp</h1>
 
       <input
@@ -67,10 +68,35 @@
       />
       <button class="btn" @click.prevent="SignUp">Sign Up</button>
       <div class="formBtn">
-        <a href="#" @click.prevent="toggleForm">Log In</a>
+        <a class="btn" @click.prevent="toggleForm">Log In</a>
       </div>
     </form>
     <!--------!!! END OF SIGNUP FORM !!!-------->
+    <!-------- START OF RESET PSWRD FORM -------->
+    <form v-if="showForgotPassword" @submit.prevent class="password-reset container">
+      <div v-if="!passwordResetSuccess">
+        <h1>Reset Password</h1>
+        <p>We will send you an email to reset your password</p>
+        <input
+          type="email"
+          name="resetEmail"
+          id="resetEmail"
+          v-model="passwordForm.email"
+          placeholder="your@email.com"
+          required
+        />
+        <button @click.prevent="resetPassword">Submit</button>
+        <div class="formBtn">
+          <a class="btn" @click.prevent="togglePasswordReset">Log In</a>
+        </div>
+      </div>
+      <div v-else>
+        <h1>Email Sent</h1>
+        <p>Check your email to reset your password</p>
+        <button @click.prevent="togglePasswordReset">Log In</button>
+      </div>
+    </form>
+    <!--------!!! START OF RESET PSWRD FORM !!!-------->
     <transition name="fade">
       <div v-if="errorMsg !==''" class="error-msg">
         <p>{{ errorMsg }}</p>
@@ -96,14 +122,30 @@ export default {
         name: "",
         password: ""
       },
+      passwordForm: {
+        email: ""
+      },
       showLoginForm: true,
+      showForgotPassword: false,
+      passwordRequestSuccess: false,
       performingRequest: false,
       errorMsg: ""
     };
   },
   methods: {
     toggleForm() {
+      this.erroMsg = "";
       this.showLoginForm = !this.showLoginForm;
+    },
+    togglePasswordReset() {
+      if (this.showForgotPassword) {
+        this.showLoginForm = true;
+        this.showForgotPassword = false;
+        this.passwordRequestSuccess = false;
+      } else {
+        this.showLoginForm = false;
+        this.showForgotPassword = true;
+      }
     },
     logIn() {
       this.performingRequest = true;
@@ -119,7 +161,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-
+          this.errorMsg = err.message;
           this.performingRequest = false;
         });
     },
@@ -148,6 +190,21 @@ export default {
           console.log(error.code);
           console.log(error.message);
           this.performingRequest = false;
+        });
+    },
+    resetPassword() {
+      this.performingRequest = true;
+      firebase.auth
+        .sendPasswordResetEmail(this.passwordForm.email)
+        .then(() => {
+          this.performingRequest = false;
+          this.passwordRequestSuccess = true;
+          this.passwordForm.email = "";
+        })
+        .catch(err => {
+          console.log(err);
+          this.performingRequest = false;
+          this.errorMsg = err.message;
         });
     }
   }

@@ -1,21 +1,8 @@
 <template>
   <div>
     <header class="header">
-      <button class="svg-wrapper save__button">
-        <svg class="svg svg-green" :width="24" :height="24">
-          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'save'}" />
-        </svg>
-      </button>
-      <button class="svg-wrapper login__button">
-        <svg class="svg svg-green" :width="24" :height="24">
-          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'log-in'}" />
-        </svg>
-      </button>
-      <button class="svg-wrapper signin__button">
-        <svg class="svg svg-green" :width="24" :height="24">
-          <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'log-out'}" />
-        </svg>
-      </button>
+      <p>Welcome back ...</p>
+      <a href="#" @click.prevent="logOut">Log Out</a>
     </header>
     <div class="container">
       <section class="title">
@@ -139,6 +126,11 @@ export default {
         .delete();
       console.log(todo.id);
       this.todos = this.todos.filter(i => i !== todo);
+    },
+    logOut() {
+      firebase.auth.signOut().then(() => {
+        this.$router.push("/login");
+      });
     }
   },
   computed: {
