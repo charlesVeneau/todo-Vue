@@ -116,7 +116,6 @@
 const firebase = require("../components/firebaseInt");
 
 export default {
-  name: "SignUp",
   data() {
     return {
       loginForm: {
@@ -161,6 +160,7 @@ export default {
           this.loginForm.password
         )
         .then(user => {
+          console.log(user);
           this.$store.commit("setCurrentUser", user.user);
           this.$store.dispatch("fetchUserProfile");
           this.performingRequest = false;

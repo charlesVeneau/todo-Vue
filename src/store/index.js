@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 // fb.auth.onAuthStateChanged(user => {
 //   if (user) {
-//     store.commit("setCurrentUser", user);
+//     // store.commit("setCurrentUser", user);
 //     store.dispatch("fetchUserProfile");
 //   }
 // })
@@ -16,6 +16,14 @@ export default new Vuex.Store({
   state: {
     currentUser: null,
     userProfile: {}
+  },
+  mutations: {
+    setCurrentUser(state, val) {
+      state.currentUser = val
+    },
+    setUserProfile(state, val) {
+      state.userProfile = val
+    }
   },
   actions: {
     clearData({
@@ -40,13 +48,6 @@ export default new Vuex.Store({
         });
     }
   },
-  mutations: {
-    setCurrentUser(state, val) {
-      state.currentUser = val
-    },
-    setUserProfile(state, val) {
-      state.userProfile = val
-    }
-  },
+
   modules: {}
 });

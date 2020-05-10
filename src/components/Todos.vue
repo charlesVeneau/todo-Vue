@@ -1,7 +1,10 @@
 <template>
   <div>
     <header class="header">
-      <p>Welcome back {{userProfile.name}}</p>
+      <p>
+        Welcome back
+        {{ userProfile.name }}
+      </p>
       <a class="header-btn" @click.prevent="logOut">Log Out</a>
       <!-- <router-link to="settings">Settings</router-link> -->
     </header>
