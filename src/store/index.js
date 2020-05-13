@@ -5,17 +5,30 @@ const fb = require("../components/firebaseInt")
 
 Vue.use(Vuex);
 
-// fb.auth.onAuthStateChanged(user => {
-//   if (user) {
-//     // store.commit("setCurrentUser", user);
-//     store.dispatch("fetchUserProfile");
-//   }
-// })
+fb.auth.onAuthStateChanged(user => {
+  if (user) {
+    store.commit("setCurrentUser", user);
+    store.dispatch("fetchUserProfile");
 
-export default new Vuex.Store({
+    //Add user todos to an array with realtime update
+    fb.db.collection('todos').orderBy('createdOn', 'asc').onSnapshot(querySnapshot => {
+      let todosArray = []
+      querySnapshot.forEach(doc => {
+        let todo = doc.data();
+        if (todo.userId === user.uid) {
+          todosArray.push(todo)
+        }
+      })
+      store.commit('setTodos', todosArray)
+    })
+  }
+})
+
+const store = new Vuex.Store({
   state: {
     currentUser: null,
-    userProfile: {}
+    userProfile: {},
+    userTodos: []
   },
   mutations: {
     setCurrentUser(state, val) {
@@ -23,6 +36,9 @@ export default new Vuex.Store({
     },
     setUserProfile(state, val) {
       state.userProfile = val
+    },
+    setTodos(state, val) {
+      state.userTodos = val
     }
   },
   actions: {
@@ -51,3 +67,5 @@ export default new Vuex.Store({
 
   modules: {}
 });
+
+export default store

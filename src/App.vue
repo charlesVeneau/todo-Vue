@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
-    </div>-->
-    <div id="topBar"></div>
     <router-view />
   </div>
 </template>
@@ -106,7 +101,6 @@ body {
   font-size: 1.4rem;
   padding: 0.6rem;
   outline: none;
-  // width: 75%;
   padding: 0 0.4em;
 }
 

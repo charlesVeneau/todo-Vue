@@ -160,14 +160,12 @@ export default {
           this.loginForm.password
         )
         .then(user => {
-          console.log(user);
           this.$store.commit("setCurrentUser", user.user);
           this.$store.dispatch("fetchUserProfile");
           this.performingRequest = false;
           this.$router.push("/");
         })
         .catch(err => {
-          console.log(err);
           this.performingRequest = false;
           this.errorMsg = err.message;
         });
