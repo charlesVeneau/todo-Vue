@@ -1,5 +1,13 @@
 # todovue
 
+## Project Description
+
+A todo list made with vuejs and firebase.
+You need to create an account (no  verified email needed) to access your todos.
+
+This project helped me to understand the mecanisms of vuejs, and the basis of firebase db and auth.
+
+
 ## Project setup
 ```
 npm install
