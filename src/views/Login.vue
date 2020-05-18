@@ -1,10 +1,11 @@
 <template>
   <div :class="{'signup-form' : !showLoginForm && !showForgotPassword}">
-    <transition name="fade">
-      <div v-if="performingRequest" class="loading">
-        <p>...loading</p>
-      </div>
-    </transition>
+    <!-- <transition name="fade" > -->
+      <!-- <div v-if="performingRequest" class="loading"> -->
+        <!-- <p>...loading</p> -->
+        
+      <!-- </div> -->
+    <!-- </transition> -->
     <!-------- START OF LOGIN FORM -------->
     <form v-if="showLoginForm" @submit.prevent class="container">
       <h1>Login</h1>
@@ -27,12 +28,24 @@
           required
           v-model="loginForm.password"
         />
-        <button class="btn" @click.prevent="logIn">Log In</button>
+        
+        <button class="btn pointer" @click.prevent="logIn">
+          <div v-if="performingRequest">
+          <fulfilling-bouncing-circle-spinner
+  :animation-duration="4000"
+  :size="23"
+  color="#fff"
+/>
+        </div>
+        <div v-else>
+          Log In
+        </div>
+          </button>
       </div>
 
       <div class="formBtn">
-        <a class="btn-blue" @click.prevent="toggleForm">Create an account</a>
-        <a class="btn-blue" @click="togglePasswordReset">Forgot Password</a>
+        <a class="btn-blue pointer" @click.prevent="toggleForm">Create an account</a>
+        <a class="btn-blue pointer" @click="togglePasswordReset">Forgot Password</a>
       </div>
     </form>
     <!--------!!! END OF LOGIN FORM !!!-------->
@@ -68,10 +81,21 @@
           required
           v-model="signUpForm.password"
         />
-        <button class="btn" @click.prevent="SignUp">Sign Up</button>
+        <button class="btn pointer" @click.prevent="SignUp">
+          <div v-if="performingRequest">
+          <fulfilling-bouncing-circle-spinner
+  :animation-duration="4000"
+  :size="23"
+  color="#fff"
+/>
+        </div>
+        <div v-else>
+          Sign Up
+        </div>
+          </button>
       </div>
       <div class="formBtn">
-        <a class="btn-blue" @click.prevent="toggleForm">Log In</a>
+        <a class="btn-blue pointer" @click.prevent="toggleForm">Log In</a>
       </div>
     </form>
     <!--------!!! END OF SIGNUP FORM !!!-------->
@@ -90,16 +114,27 @@
             placeholder="your@email.com"
             required
           />
-          <button @click.prevent="resetPassword" class="btn">Submit</button>
+          <button @click.prevent="resetPassword" class="btn pointer">
+            <div v-if="performingRequest">
+          <fulfilling-bouncing-circle-spinner
+  :animation-duration="4000"
+  :size="23"
+  color="#fff"
+/>
+        </div>
+        <div v-else>
+          Submit
+        </div>
+          </button>
           <div class="formBtn"></div>
 
-          <a class="btn-blue" @click.prevent="togglePasswordReset">Log In</a>
+          <a class="btn-blue pointer" @click.prevent="togglePasswordReset">Log In</a>
         </div>
       </div>
       <div v-else>
         <h1>Email Sent</h1>
         <p>Check your email to reset your password</p>
-        <button @click.prevent="togglePasswordReset" class="btn-blue">Log In</button>
+        <button @click.prevent="togglePasswordReset" class="btn-blue pointer">Log In</button>
       </div>
     </form>
     <!--------!!! START OF RESET PSWRD FORM !!!-------->
@@ -112,10 +147,13 @@
 </template>
 
 <script>
-// import firebase from "../components/firebaseInt";
-const firebase = require("../components/firebaseInt");
+import { FulfillingBouncingCircleSpinner } from 'epic-spinners'
+const firebase = require("@/components/firebaseInt");
 
 export default {
+  components:{
+    FulfillingBouncingCircleSpinner
+  },
   data() {
     return {
       loginForm: {
@@ -220,5 +258,14 @@ export default {
 .input,
 .input + .btn {
   margin-top: 1em;
+}
+
+.loading{
+  padding: 0 auto !important;
+}
+
+.error-msg{
+  color: rgb(207, 72, 72);
+  font-size: 1.4rem;
 }
 </style>

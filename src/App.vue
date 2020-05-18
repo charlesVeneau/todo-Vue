@@ -199,4 +199,8 @@ body {
 .selected {
   color: rgb(86, 194, 110) !important;
 }
+
+.pointer {
+  cursor: pointer;
+}
 </style>

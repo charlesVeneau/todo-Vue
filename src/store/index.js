@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-const fb = require("../components/firebaseInt")
+const fb = require("@/components/firebaseInt")
 
 Vue.use(Vuex);
 

@@ -5,7 +5,7 @@
         Welcome back
         {{ userProfile.name }}
       </p>
-      <a class="header-btn" @click.prevent="logOut">Log Out</a>
+      <a class="header-btn pointer" @click.prevent="logOut">Log Out</a>
       <!-- <router-link to="settings">Settings</router-link> -->
     </header>
     <div class="container">
@@ -21,7 +21,7 @@
             v-model="newTodo"
             @keyup.enter="addToDo()"
           />
-          <button class="svg-wrapper" @click.prevent="addToDo">
+          <button class="svg-wrapper pointer" @click.prevent="addToDo">
             <svg class="svg svg-green" :width="24" :height="24">
               <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'plus'}" />
             </svg>
@@ -34,7 +34,7 @@
               @click="toggleToDo(index)"
             >{{ todo.content }}</label>
             <!-- <BaseButton name="x" class="svg-red" @click="deleteTodo" /> -->
-            <button class="svg-wrapper" @click.prevent="deleteTodo(todo, index)">
+            <button class="svg-wrapper pointer" @click.prevent="deleteTodo(todo, index)">
               <svg class="svg svg-red" :width="24" :height="24">
                 <use v-bind="{'xlink:href':'/feather-sprite.svg#'+'x'}" />
               </svg>
@@ -73,7 +73,7 @@
 
 <script>
 import { mapState } from "vuex";
-const firebase = require("../components/firebaseInt");
+const firebase = require("@/components/firebaseInt");
 
 export default {
   data() {
